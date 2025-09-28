@@ -648,7 +648,7 @@ int main(int argc, char *argv[])
 	printf("Ep 4 Press A\n");
 	printf("Ep 5 Press X\n");
 	printf("Ep 6 Press Y\n");
-	//printf("Ep 7 Press B\n");
+	printf("Ep 7 Press B\n");
 	while(epNumber == 0)
 	{
 		hidScanInput();
@@ -657,18 +657,20 @@ int main(int argc, char *argv[])
 		if (kDown & KEY_A)
 		{
 			epNumber = 4;
+			fs_keenPath = "romfs:/keen4";
 			fs_omniPath = "romfs:/data/keen4";
 			ck_currentEpisode = &ck4_episode;
 			ck_episodeFile = "EPISODE.CK4";
 		}
 
-		/*if (kDown & KEY_B)
+		if (kDown & KEY_B)
 		{
 			epNumber = 7;
+			fs_keenPath = "romfs:/keen7";
 			fs_omniPath = "romfs:/data/mod/keen7";
 			ck_currentEpisode = &ck4_episode;
 			ck_episodeFile = "MOD.CK4";
-		}*/
+		}
 
 		if (kDown & KEY_X)
 		{
