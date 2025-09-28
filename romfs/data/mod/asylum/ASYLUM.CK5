@@ -1,0 +1,58 @@
+# Level Files
+%string ca_mapFile "CUSTMAPS.CK5"
+
+%stringarray ck_str_levelNames
+	"Address Unknown",
+	"Begin",
+	"Rocket",
+	"The Tower of Secrets",
+	"Candy hive",
+	"Mortillery",
+	"Volte-A-Pede",
+	"** WILD **",
+	"Binary Exit",
+	"Sparky home",
+	"Slicestar \n Guard District",
+	"The House \n of Doors",
+	"Keen Asylum",
+	"Invisibility",
+	"Robo Pantry",
+	"High Scores"
+
+%stringarray ck_str_levelEntryText
+	"Meat Mirror and \n the Flamingo",
+
+	"Intro",
+
+	"Keen blasts into \n the rocket",
+
+	"Keen descends the \n Tower of Secrets",
+
+	"Keen buzzes \n into the Candy hive",
+
+	"Keen invades the \n Mortillery",
+
+	"Keen guides the \n Volte-A-Pede",
+
+	"Keen's gone WILD!!",
+
+	"Keen chooses \n the High Bits",
+
+	"Keen terrorizes \n the Sparkies' home",
+
+	"Keen cautiously \n enters the SGD",
+
+	"Keen is unable to \n resist entering",
+
+	"The very end of Keen",
+
+	"Keen carefully \n trods invisibility",
+
+	"Keen robs the \n Robo Pantry",
+
+	"Keen unexplainedly\n"
+	"find himself by\n"
+	"theHigh Scores"
+
+
+%override "EPISODE.CK5"

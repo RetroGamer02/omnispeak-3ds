@@ -22,7 +22,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "id_us.h"
 #include "id_vl.h"
 
+#ifdef __3DS__
+#include <SDL/SDL.h>
+#else
 #include <SDL.h>
+#endif
 #include <string.h>
 
 #define IN_MAX_JOYSTICKS 2
@@ -408,9 +412,8 @@ bool IN_SDL_StartJoy(int joystick)
 
 	in_joystickPresent[joystick_id] = true;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
 	in_joystickHasHat[joystick_id] = (SDL_JoystickNumHats(in_joysticks[joystick_id]) > 0);
-
+#if SDL_VERSION_ATLEAST(2, 0, 0)
 	if (SDL_IsGameController(joystick))
 	{
 		in_controllers[joystick_id] = SDL_GameControllerOpen(joystick);
@@ -440,7 +443,7 @@ void IN_SDL_JoyGetAbs(int joystick, int *x, int *y)
 {
 	int value_x = SDL_JoystickGetAxis(in_joysticks[joystick], 0);
 	int value_y = SDL_JoystickGetAxis(in_joysticks[joystick], 1);
-#if !defined(CK_VANILLA) && SDL_VERSION_ATLEAST(2, 0, 0)
+//#if !defined(CK_VANILLA) && SDL_VERSION_ATLEAST(2, 0, 0)
 	static const int HAT = 32000;
 	if (in_joystickHasHat[joystick]) {
 		switch (SDL_JoystickGetHat(in_joysticks[joystick], 0)) {
@@ -455,7 +458,7 @@ void IN_SDL_JoyGetAbs(int joystick, int *x, int *y)
 			default:                                                   break;
 		}
 	}
-#endif
+//#endif
 	if (x)
 		*x = value_x;
 	if (y)

@@ -28,6 +28,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <stdbool.h>
 #include <stdio.h>
 
+#ifdef __3DS__
+extern const char *fs_omniPath;
+#endif
+
 typedef FILE *FS_File;
 
 bool FS_IsFileValid(FS_File file);

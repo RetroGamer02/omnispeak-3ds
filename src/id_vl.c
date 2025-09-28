@@ -26,6 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "id_us.h"
 
 #include <stdlib.h>
+#ifdef WITH_SDL
+#ifdef __3DS__
+#include <SDL/SDL.h>
+#else
+#include <SDL.h>
+#endif
+#endif
 
 // EGA color palette in RGB format (technically more can be chosen with the VGA)
 const uint8_t VL_EGARGBColorTable[16][3] = {

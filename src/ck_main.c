@@ -43,6 +43,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __3DS__
+#include <3ds.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+#endif
+
+#ifdef WITH_SDL
+#ifdef __3DS__
+#include <SDL/SDL.h>
+#else
+#include <SDL.h> // For main (SDL_main) function prototype
+#endif
+#endif
 /*
  * The 'episode' we're playing.
  */
@@ -511,6 +526,39 @@ int main(int argc, char *argv[])
 	// Check if we're running the store demo.
 	if (US_ParmPresent("DEMO"))
 		ck_storeDemo = true;
+#ifdef __3DS__
+
+	gfxInitDefault();
+
+	consoleInit(GFX_TOP, NULL);
+
+	Result rc = romfsInit();
+	if (rc)
+		printf("romfsInit: %08lX\n", rc);
+
+	DIR* dir;
+	
+	dir = opendir("sdmc:/3ds/OmniSpeak");
+	if (dir) {
+		closedir(dir);
+	} else if (ENOENT == errno) {
+		//printf("OmniSpeak directory error: %d\n" ,errno);
+		mkdir("sdmc:/3ds/OmniSpeak", 0700);
+		mkdir("sdmc:/3ds/OmniSpeak/User", 0700);
+	} else {
+		printf("OmniSpeak directory unknown error.\n");
+	}
+
+	dir = opendir("sdmc:/3ds/OmniSpeak/User");
+	if (dir) {
+		closedir(dir);
+	} else if (ENOENT == errno) {
+		//printf("User directory error: %d\n" ,errno);
+		mkdir("sdmc:/3ds/OmniSpeak/User", 0700);
+	} else {
+		printf("User directory unknown error.\n");
+	}
+	#endif
 
 	// We need to start the filesystem code before we look
 	// for any files.
@@ -574,21 +622,80 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	#ifdef __3DS__
+	bool isFullScreen = CFG_GetConfigBool("fullscreen", true);
+	#else
 	bool isFullScreen = CFG_GetConfigBool("fullscreen", false);
+	#endif
 	bool isAspectCorrected = CFG_GetConfigBool("aspect", true);
 	bool hasBorder = CFG_GetConfigBool("border", true);
 	bool isIntegerScaled = CFG_GetConfigBool("integer", false);
+	#ifdef __3DS__
+	bool overrideCopyProtection = true;
+	#else
 	bool overrideCopyProtection = CFG_GetConfigBool("ck6_noCreatureQuestion", false);
+	#endif
 	int swapInterval = CFG_GetConfigInt("swapInterval", 1);
 #ifdef CK_ENABLE_PLAYLOOP_DUMPER
 	const char *dumperFilename = NULL;
 #endif
+
+	#ifdef __3DS__
+	int8_t epNumber = 0;
+	uint32_t kDown;
+
+	printf("\nPlease Select an Episode:\n");
+	printf("Ep 4 Press A\n");
+	printf("Ep 5 Press X\n");
+	printf("Ep 6 Press Y\n");
+	//printf("Ep 7 Press B\n");
+	while(epNumber == 0)
+	{
+		hidScanInput();
+		kDown = hidKeysDown();
+		
+		if (kDown & KEY_A)
+		{
+			epNumber = 4;
+			fs_omniPath = "romfs:/data/keen4";
+			ck_currentEpisode = &ck4_episode;
+			ck_episodeFile = "EPISODE.CK4";
+		}
+
+		/*if (kDown & KEY_B)
+		{
+			epNumber = 7;
+			fs_omniPath = "romfs:/data/mod/keen7";
+			ck_currentEpisode = &ck4_episode;
+			ck_episodeFile = "MOD.CK4";
+		}*/
+
+		if (kDown & KEY_X)
+		{
+			epNumber = 5;
+			fs_omniPath = "romfs:/data/keen5";
+			ck_currentEpisode = &ck5_episode;
+			ck_episodeFile = "EPISODE.CK5";
+		}
+
+		if (kDown & KEY_Y)
+		{
+			epNumber = 6;
+			fs_omniPath = "romfs:/data/keen6e14";
+			ck_currentEpisode = &ck6_episode;
+			ck_episodeFile = "EPISODE.CK6";
+		}
+	}
+
+	consoleClear(); //Clears 3ds bottom text screen
+	#endif
 
 	for (int i = 1; i < argc; ++i)
 	{
 		if (!CK_Cross_strcasecmp(argv[i], "/EPISODE"))
 		{
 			// A bit of stuff from the usual demo loop
+			#ifndef __3DS__
 			if (argc >= i + 1)
 			{
 				if (FS_IsOmniFilePresent(argv[i + 1]))
@@ -618,6 +725,7 @@ int main(int argc, char *argv[])
 #endif
 					QuitF("Unsupported episode \"%s\"!", argv[i + 1]);
 			}
+			#endif
 		}
 		else if (!CK_Cross_strcasecmp(argv[i], "/FULLSCREEN"))
 		{

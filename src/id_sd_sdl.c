@@ -28,8 +28,13 @@
 //                      NeedsMusic - load music?
 //
 
+#ifdef __3DS__
+#include <SDL/SDL.h>
+#include <SDL/SDL_endian.h>
+#else
 #include "SDL.h"
 #include "SDL_endian.h"
+#endif
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -488,6 +493,9 @@ void SD_SDL_PCSpkOn(bool on, int freq)
 
 void SD_SDL_Startup(void)
 {
+	#ifdef __3DS__
+	sd_oplEmulator = SD_OPL_EMULATOR_DBOPL;
+	#else
 	const char *oplEmuString = CFG_GetConfigString("oplEmulator", "dbopl");
 	if (!CK_Cross_strcasecmp(oplEmuString, "nukedopl3"))
 		sd_oplEmulator = SD_OPL_EMULATOR_NUKED;
@@ -498,6 +506,7 @@ void SD_SDL_Startup(void)
 		CK_Cross_LogMessage(CK_LOG_MSG_WARNING, "Unknown OPL emulator \"%s\". Valid values are \"dbopl\" and \"nukedopl3\".\n", oplEmuString);
 		sd_oplEmulator = SD_OPL_EMULATOR_DBOPL;
 	}
+	#endif
 
 	SD_SDL_useTimerFallback = !CFG_GetConfigBool("sd_sdl_audioSync", false);
 
@@ -544,7 +553,11 @@ void SD_SDL_Startup(void)
 	}
 	else
 	{
+		#ifdef __3DS__
+		SD_SDL_AudioSpec.freq = 22050;
+		#else
 		SD_SDL_AudioSpec.freq = CFG_GetConfigInt("sampleRate", 49716); // OPL rate
+		#endif
 		SD_SDL_AudioSpec.format = AUDIO_S16SYS;
 		SD_SDL_AudioSpec.channels = CFG_GetConfigInt("audioChannels", 2);
 		// Under wine, small buffer sizes cause a lot of crackling, so we double the
@@ -619,20 +632,24 @@ bool SD_SDL_IsLocked = false;
 
 void SD_SDL_Lock()
 {
+	#ifndef __3DS__
 	if (SD_SDL_IsLocked)
 		CK_Cross_LogMessage(CK_LOG_MSG_ERROR, "Tried to lock the audio system when it was already locked!\n");
 	if (SD_SDL_AudioSubsystem_Up)
 		SDL_LockAudio();
 	SD_SDL_IsLocked = true;
+	#endif
 }
 
 void SD_SDL_Unlock()
 {
+	#ifndef __3DS__
 	if (!SD_SDL_IsLocked)
 		CK_Cross_LogMessage(CK_LOG_MSG_ERROR, "Tried to unlock the audio system when it was already unlocked!\n");
 	if (SD_SDL_AudioSubsystem_Up)
 		SDL_UnlockAudio();
 	SD_SDL_IsLocked = false;
+	#endif
 }
 
 void SD_SDL_WaitTick()

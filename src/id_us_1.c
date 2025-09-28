@@ -760,7 +760,11 @@ void US_LoadConfig(void)
 	{
 		sd = sdm_Off;
 		sm = smm_Off;
+		#ifdef __3DS__
+		inputDevice = 2;
+		#else
 		inputDevice = 0;
+		#endif
 		ck_scoreBoxEnabled = true;
 		ck_twoButtonFiring = false;
 		configFileLoaded = false;

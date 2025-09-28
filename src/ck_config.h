@@ -41,6 +41,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 // (NOTE: You'll need to enable this on double-buffered backends for accuracy
 // at the moment, as VL_SyncPages() isn't implemented. The performance hit on
 // DOS isn't really worth it, though.)
+#ifdef __3DS__
+#define ALWAYS_REDRAW
+#endif
 //#define ALWAYS_REDRAW
 #define FS_MAX_FILENAME_LEN 24
 
@@ -86,7 +89,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define EXTRA_GRAPHICS_OPTIONS
 
 // Support for rebinding 'Status'
+#ifndef __3DS__
 #define EXTRA_KEYBOARD_OPTIONS
+#endif
 
 // Joystick names, Joystick Configuration
 #define EXTRA_JOYSTICK_OPTIONS
@@ -109,6 +114,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 // Default paths for Omni / Keen / User files.
 // (See the id_fs.h documentation for more info.)
+#ifdef __3DS__
+#define FS_DEFAULT_KEEN_PATH "sdmc:/3ds/OmniSpeak"
+#define FS_DEFAULT_OMNI_PATH "romfs:/."
+#define FS_DEFAULT_USER_PATH "sdmc:/3ds/OmniSpeak/User"
+#else
 #ifndef FS_DEFAULT_KEEN_PATH
 #define FS_DEFAULT_KEEN_PATH "."
 #endif
@@ -117,6 +127,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #endif
 #ifndef FS_DEFAULT_USER_PATH
 #define FS_DEFAULT_USER_PATH "."
+#endif
 #endif
 
 // Look for Omnispeak-specific files in the Keen directory first

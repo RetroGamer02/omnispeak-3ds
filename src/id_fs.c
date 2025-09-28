@@ -241,7 +241,11 @@ FS_File FSL_CreateFileInDir(const char *dirPath, const char *fileName)
 bool FSL_IsDirWritable(const char *dirPath)
 {
 	// TODO: Check this works on DOS with (e.g.) write protected floppies.
+	#ifdef __3DS__
+	return true; //Fixme
+	#else
 	return (access(dirPath, W_OK | X_OK) == 0);
+	#endif
 }
 
 size_t FS_GetFileSize(FS_File file)

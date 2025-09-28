@@ -151,7 +151,7 @@ bool CK_US_VSyncMenuProc(US_CardMsg msg, US_CardItem *item)
 
 #endif
 
-#ifdef EXTRA_JOYSTICK_OPTIONS
+#if defined (EXTRA_JOYSTICK_OPTIONS) && !defined (__3DS__)
 
 bool CK_US_JoyMotionModeMenuProc(US_CardMsg msg, US_CardItem *item)
 {
@@ -602,7 +602,7 @@ US_Card ck_us_borderMenu = {0, 0, 0, 0, 0, &CK_US_BorderMenuProc, 0, 0, 0};
 US_Card ck_us_integerMenu = {0, 0, 0, 0, 0, &CK_US_IntegerMenuProc, 0, 0, 0};
 US_Card ck_us_vsyncMenu = {0, 0, 0, 0, 0, &CK_US_VSyncMenuProc, 0, 0, 0};
 #endif
-#ifdef EXTRA_JOYSTICK_OPTIONS
+#if defined (EXTRA_JOYSTICK_OPTIONS) && !defined (__3DS__)
 US_Card ck_us_joyMotionModeMenu = {0, 0, 0, 0, 0, &CK_US_JoyMotionModeMenuProc, 0, 0, 0};
 #endif
 #ifdef QUICKSAVE_ENABLED
@@ -673,7 +673,7 @@ US_Card ck_us_joystick1Menu = {0, 0, CK_CHUNKID(PIC_JOYSTICKCARD), 0, 0, &CK_US_
 US_Card ck_us_joystick2Menu = {0, 0, CK_CHUNKID(PIC_JOYSTICKCARD), 0, 0, &CK_US_Joystick2MenuProc, 0, 0, 0};
 US_Card ck_us_gamepadMenu = {0, 0, CK_CHUNKID(PIC_JOYSTICKCARD), 0, 0, &CK_US_GamepadMenuProc, 0, 0, 0};
 
-#ifdef EXTRA_JOYSTICK_OPTIONS
+#if defined (EXTRA_JOYSTICK_OPTIONS) && !defined (__3DS__)
 // Joystick Config Menu
 US_CardItem ck_us_joyconfMenuItems[] = {
 	{US_ITEM_Normal, 0, IN_SC_J, "JUMP", US_Comm_None, 0, 0, 0},
@@ -701,7 +701,7 @@ US_CardItem ck_us_configureMenuItems[] = {
 	{US_ITEM_Submenu, 0, IN_SC_One, "USE JOYSTICK #1", US_Comm_None, &ck_us_joystick1Menu, 0, 0},
 	{US_ITEM_Submenu, 0, IN_SC_Two, "USE JOYSTICK #2", US_Comm_None, &ck_us_joystick2Menu, 0, 0},
 //{ US_ITEM_Submenu, 0, IN_SC_G, "", US_Comm_None, &ck_us_gamepadMenu, 0, 0 },
-#ifdef EXTRA_JOYSTICK_OPTIONS
+#if defined (EXTRA_JOYSTICK_OPTIONS) && !defined (__3DS__)
 	{US_ITEM_Submenu, 0, IN_SC_J, "JOYSTICK CONFIGURATION", US_Comm_None, &ck_us_joyconfMenu, 0, 0},
 #endif
 	{US_ITEM_None, 0, IN_SC_None, 0, US_Comm_None, 0, 0, 0}};
@@ -903,7 +903,7 @@ bool CK_US_GamepadMenuProc(US_CardMsg msg, US_CardItem *item)
 	return false;
 }
 
-#ifdef EXTRA_JOYSTICK_OPTIONS
+#if defined (EXTRA_JOYSTICK_OPTIONS) && !defined (__3DS__)
 bool CK_US_JoyConfMenuProc(US_CardMsg msg, US_CardItem *item)
 {
 	IN_JoyConfItem which_control;
@@ -1360,7 +1360,7 @@ bool CK_PaddleWar(US_CardMsg msg, US_CardItem *item)
 	return 1;
 }
 
-#ifdef EXTRA_JOYSTICK_OPTIONS
+#if defined (EXTRA_JOYSTICK_OPTIONS) && !defined (__3DS__)
 void CK_US_SetJoystickName(US_CardItem *item, int joystick)
 {
 	static char str[US_MAX_JOYSTICKS][US_MAX_JOYSTICK_NAME_LENGTH + 1];
@@ -1397,7 +1397,7 @@ void CK_US_UpdateOptionsMenus(void)
 	ck_us_optionsMenuItems[7].caption = vl_isIntegerScaled ? "INTEGER SCALING (ON)" : "INTEGER SCALING (OFF)";
 	ck_us_optionsMenuItems[8].caption = vl_swapInterval ? "VSYNC (ON)" : "VSYNC (OFF)";
 #endif
-#ifdef EXTRA_JOYSTICK_OPTIONS
+#if defined (EXTRA_JOYSTICK_OPTIONS) && !defined (__3DS__)
 	ck_us_joyconfMenuItems[(int)IN_joy_modern].caption = in_joyAdvancedMotion ? "MOTION MODE (MODERN)" : "MOTION MODE (CLASSIC)";
 #endif
 #ifdef QUICKSAVE_ENABLED
@@ -1422,7 +1422,7 @@ void CK_US_UpdateOptionsMenus(void)
 		ck_us_configureMenuItems[5].state &= ~US_IS_Disabled;
 	else
 		ck_us_configureMenuItems[5].state |= US_IS_Disabled;
-#ifdef EXTRA_JOYSTICK_OPTIONS
+#if defined (EXTRA_JOYSTICK_OPTIONS) && !defined (__3DS__)
 	CK_US_SetJoystickName(&ck_us_configureMenuItems[4], 0);
 	CK_US_SetJoystickName(&ck_us_configureMenuItems[5], 1);
 	if (IN_JoyPresent(0) || IN_JoyPresent(1))

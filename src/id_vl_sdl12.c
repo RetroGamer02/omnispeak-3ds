@@ -1,5 +1,9 @@
 #include "assert.h"
+#ifdef __3DS__
+#include <SDL/SDL.h>
+#else
 #include <SDL.h>
+#endif
 #include <string.h>
 #include "id_vl.h"
 #include "id_vl_private.h"
@@ -31,6 +35,19 @@ static void VL_SDL12_SetVideoMode(int mode)
 
 		if (vl_isFullScreen)
 		{
+			#ifdef __3DS__
+			vl_sdl12_screenSurface = SDL_SetVideoMode(VL_VGA_GFX_SHRUNK_WIDTH_PLUS_BORDER,
+				VL_VGA_GFX_SHRUNK_HEIGHT_PLUS_BORDER,
+				0, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_FULLSCREEN);
+			vl_sdl12_screenWholeRect.x = 0;
+			vl_sdl12_screenWholeRect.y = 0;
+			vl_sdl12_screenBorderedRect.w = VL_EGAVGA_GFX_WIDTH;
+			vl_sdl12_screenBorderedRect.h = VL_EGAVGA_GFX_HEIGHT;
+			vl_sdl12_screenBorderedRect.x = VL_VGA_GFX_SHRUNK_LEFTBORDER_WIDTH;
+			vl_sdl12_screenBorderedRect.y = VL_VGA_GFX_SHRUNK_TOPBORDER_HEIGHT;
+			vl_sdl12_screenBorderedRect.w = VL_EGAVGA_GFX_WIDTH;
+			vl_sdl12_screenBorderedRect.h = VL_EGAVGA_GFX_HEIGHT;
+			#else
 			vl_sdl12_screenSurface = SDL_SetVideoMode(vl_sdl12_desktopWidth,
 				vl_sdl12_desktopHeight,
 				0, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_FULLSCREEN);
@@ -42,6 +59,7 @@ static void VL_SDL12_SetVideoMode(int mode)
 			vl_sdl12_screenBorderedRect.h = VL_EGAVGA_GFX_HEIGHT;
 			vl_sdl12_screenBorderedRect.x = vl_sdl12_screenWholeRect.x + VL_VGA_GFX_SHRUNK_LEFTBORDER_WIDTH;
 			vl_sdl12_screenBorderedRect.y = vl_sdl12_screenWholeRect.y + VL_VGA_GFX_SHRUNK_TOPBORDER_HEIGHT;
+			#endif
 		}
 		else
 		{

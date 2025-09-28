@@ -1,0 +1,98 @@
+
+# The base episode number.
+%int ck_episodeNumber 5
+
+%string ca_mapHead "MAPHEAD.CK5"
+%string ca_graphHead "EGAHEAD.CK5"
+%stringarray ck_str_levelNames
+	"Omegamatic II",                         # Replace level names
+	"Exhaust Port 314",
+	"MS Tech Support",
+	"Layer Zero Defense",
+	"Power Supply Center",
+	"L-337",
+	"Not So Fast",
+	"The Atrium",
+	"Double Toggle",
+	"The Shelley Shack",
+	"Ghost Town",
+	"Celeritas",
+	"theInfernalM`~_|",
+	"Quick and Easy",
+	"The Omega Guard"
+
+%stringarray ck_str_levelEntryText
+	"Keen feels he\nis unwelcome",          # Replace level entry texts
+	"Exhaust Port 314\nUncanny, isn't it?",
+	"Keen is attacked\nby Microsoft\nTech Support",
+	"Keen peels back\nLayer Zero Defense",
+	"Keen investigates the\nPower Supply Center",
+	"\nIt's not what you say,\n17'5 h0w y0u 54y 17z0rz",
+	"So close,\nand yet\nso far",
+	"Keen takes a\nbreath of fresh air",
+	"Keen is pulled into\nDouble Toggle",
+	"Keen drops into\nThe Shelley Shack",
+	"Is there anybody\nin there ... ?",
+	"Keen speeds into\nCeleritas",
+	"Last stop:\ntheInfernalM`~_|",
+	"This shouldn't\ntake long ...",
+	"Keen finally reaches\nThe Omega Guard"
+
+
+%string ck_str_storyText
+	"Episode Five\n"
+	"and a Half\n"
+	"\n"
+	"The Armageddon Machine\n"
+	"Mark II\n"
+	"\n"
+	"Soon after he decoded\n"
+	"Mort's SGA message,\n"
+	"Keen switched on his\n"
+	"Photachyon Transceiver\n"
+	"and searched for info\n"
+	"on Mortimer's newest\n"
+	"evil plan.\n"
+	"\n"
+	"He picked up a message\n"
+	"about something called\n"
+	"The Omegamatic Mark II.\n"
+	"\n"
+	"Keen immediately got into\n"
+	"his Bean-with-Bacon\n"
+	"Megarocket and blasted\n"
+	"off to the location of\n"
+	"this new threat.\n"
+	"\n"
+	"Seventy-six furious\n"
+	"games of Paddle-War\n"
+	"later, The Omegamatic II\n"
+	"came into sight.\n"
+	"\n"
+	"A half-hour later,\n"
+	"Keen had docked his\n"
+	"ship into the familiar\n"
+	"device.  Keen went\n"
+	"through his handy\n"
+	"Attach-O-Ray into\n"
+	"a port and began\n"
+	"his quest.\n"
+
+%int ck_easyJumpGravity 0				# Easy -> Same Jump Height
+%string ck_str_tryAgainIntro  "Want to try again on"           # Miscellaneous text
+%string ck_str_tryAgainTryAgain  "Of Course"
+%string ck_str_exitToMap "Bah - Not Now"
+%string ck5_str_fuseDestroyed "\nFuses?\nWhat fuses?"
+%string ck5_str_fuseDestroyedKorath "\nFuses?\nWhat fuses?"
+
+%stringarray ck_defaultHighScoreNames
+	"Id Software - '91",
+	"",
+	"Jason Blochowiak",
+	"Adrian Carmack",
+	"John Carmack",
+	"Tom Hall",
+	"John Romero",
+	"The CK Guy"
+
+%override "EPISODE.CK5"

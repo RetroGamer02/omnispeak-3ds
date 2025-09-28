@@ -262,6 +262,23 @@ extern const char *in_PausedMessage;
 extern bool in_disableJoysticks;
 extern bool in_joyAdvancedMotion;
 
+#ifdef __3DS__
+typedef enum IN_JoyConfItem
+{
+	//Remapped for 3ds
+	IN_joy_jump = 1,
+	IN_joy_pogo = 3,
+	IN_joy_fire = 2,
+	IN_joy_menu = 0,
+	IN_joy_status = 4,
+#ifdef QUICKSAVE_ENABLED
+	IN_joy_quickload,
+	IN_joy_quicksave,
+#endif
+	IN_joy_deadzone,
+	IN_joy_modern
+} IN_JoyConfItem;
+#else
 typedef enum IN_JoyConfItem
 {
 	IN_joy_jump,
@@ -276,6 +293,7 @@ typedef enum IN_JoyConfItem
 	IN_joy_deadzone,
 	IN_joy_modern
 } IN_JoyConfItem;
+#endif
 
 void IN_PumpEvents();
 void IN_WaitKey();

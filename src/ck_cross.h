@@ -10,7 +10,11 @@
 #if WITH_SDL == 3
 #include <SDL3/SDL.h>
 #else
+#ifdef __3DS__
+#include <SDL/SDL.h>
+#else
 #include "SDL.h"
+#endif
 #endif
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
 #define CK_CROSS_IS_BIGENDIAN
