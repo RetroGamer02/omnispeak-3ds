@@ -117,7 +117,7 @@ void CK_ShutdownID(void)
 	CFG_Shutdown();
 	MM_Shutdown();
 
-#ifdef WITH_SDL
+#if defined (WITH_SDL) && !defined(__3DS__)
 	SDL_Quit();
 #endif
 }
