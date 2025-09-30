@@ -508,7 +508,11 @@ void SD_SDL_Startup(void)
 	}
 	#endif
 
+	#ifdef __3DS__
+	SD_SDL_useTimerFallback = false;
+	#else
 	SD_SDL_useTimerFallback = !CFG_GetConfigBool("sd_sdl_audioSync", false);
+	#endif
 
 	for (int i = 0; i < us_argc; ++i)
 	{

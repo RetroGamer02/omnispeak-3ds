@@ -338,7 +338,11 @@ bool CK_SaveGame(FS_File fp)
 		cmplen = CAL_RLEWCompress(CA_TilePtrAtPos(0, 0, i), bufsize, buf + 2, 0xABCD);
 
 		/* Write the size of the compressed level */
+		#ifdef __3DS__
+		memcpy(buf, &cmplen, sizeof(cmplen));
+		#else
 		*((uint16_t *)buf) = cmplen;
+		#endif
 		cmplen /= 2;
 		if (FS_WriteInt16LE(buf, cmplen + 1, fp) != cmplen + 1)
 		{

@@ -576,7 +576,12 @@ void JoinTerminatorPics(void)
 	MM_GetPtr(&introbuffer2, 30000);
 
 	// Where we start writing the bitmap data
+	#ifdef __3DS__
+	uint8_t *raw = ((introbmptype *)(introbuffer2))->data;
+	memcpy(&introBMPDataPtr, &raw, sizeof(raw)); // if introBMPDataPtr is pointer
+	#else
 	introBMPDataPtr = (uint16_t *)((introbmptype *)(introbuffer2))->data;
+	#endif
 
 	// for each row
 	for (i = 0; i < 200; i++)
@@ -589,7 +594,12 @@ void JoinTerminatorPics(void)
 
 		count = 0;
 
+		#ifdef __3DS__
+		uint8_t *raw = (uint8_t *)ck_introCommander + ck_introCommander->linestarts[i];
+		memcpy(&linestart, &raw, sizeof(raw)); // keep linestart as uint8_t* if possible
+		#else
 		linestart = (uint16_t *)((uint8_t *)ck_introCommander + ck_introCommander->linestarts[i]);
+		#endif
 		inword = *linestart++;
 
 		do
@@ -603,6 +613,7 @@ void JoinTerminatorPics(void)
 		// Add some space between the COMMANDER and the KEEN
 		count += 80;
 
+		//__3DS__ Fixme?
 		linestart = (uint16_t *)((uint8_t *)(ck_introKeen) + ck_introKeen->linestarts[i]);
 		linestart++;
 		inword = *linestart++;
@@ -1509,7 +1520,13 @@ void CK_PlayDemoFile(const char *demoName)
 
 	uint16_t demoMap = *demoBuf;
 	demoBuf += 2;
+	#ifdef __3DS__
+	uint16_t tmp;
+	memcpy(&tmp, demoBuf, sizeof(tmp));
+	uint16_t demoLen = CK_Cross_SwapLE16(tmp);
+	#else
 	uint16_t demoLen = CK_Cross_SwapLE16(*((uint16_t *)demoBuf));
+	#endif
 	demoBuf += 2;
 
 	ck_gameState.currentLevel = demoMap;
@@ -1537,7 +1554,13 @@ void CK_PlayDemo(int demoNumber)
 
 	uint16_t demoMap = *demoBuf;
 	demoBuf += 2;
+	#ifdef __3DS__
+	uint16_t tmp;
+	memcpy(&tmp, demoBuf, sizeof(tmp));
+	uint16_t demoLen = CK_Cross_SwapLE16(tmp);
+	#else
 	uint16_t demoLen = CK_Cross_SwapLE16(*((uint16_t *)demoBuf));
+	#endif
 	demoBuf += 2;
 
 	ck_gameState.currentLevel = demoMap;

@@ -1371,11 +1371,21 @@ void CK_US_SetJoystickName(US_CardItem *item, int joystick)
 		if ((strlen(name) + 4) > US_MAX_JOYSTICK_NAME_LENGTH)
 		{
 			int n = US_MAX_JOYSTICK_NAME_LENGTH - 7;
+			#ifdef __3DS__
+			memcpy(pos, name, n);
+			pos += n;
+			strcpy(pos, "...");
+			#else
 			snprintf(pos, US_MAX_JOYSTICK_NAME_LENGTH + 1, "USE %s...", name);
+			#endif
 		}
 		else
 		{
+			#ifdef __3DS__
+			strcpy(pos, name);
+			#else
 			snprintf(pos, US_MAX_JOYSTICK_NAME_LENGTH + 1, "USE %s", name);
+			#endif
 		}
 	}
 	else
